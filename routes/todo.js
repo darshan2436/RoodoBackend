@@ -34,7 +34,6 @@ router.get('/', async (req, res) => {
     if(todos === "[]" || todos.length === 0){
       throw new Error("No todos found");
     }
-    console.log(todos);
     res.json(todos);
   } catch (err) {
     res.status(500).json({ msg: err.message || 'Server error' });
