@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Add new Todo
 router.post('/', async (req, res) => {
-  const { title, deadline,  added, completedAt, punishment ,isCompleted } = req.body;
+  const { title, deadline,  added, completedAt, punishment ,isCompleted ,email} = req.body;
 
   try {
     const newTodo = new Todo({
@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
       completedAt,
       punishment,
       isCompleted: false,
-      // email,
+      email,
     });
 
     await newTodo.save();
@@ -27,11 +27,17 @@ router.post('/', async (req, res) => {
 
 // Get all Todos
 router.get('/', async (req, res) => {
+  const { email } = req.body;
   try {
-    const todos = await Todo.find();
+    let todos = await Todo.find();
+    todos = todos.filter(todo => todo.email === email);
+    if(todos === "[]" || todos.length === 0){
+      throw new Error("No todos found");
+    }
+    console.log(todos);
     res.json(todos);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    res.status(500).json({ msg: err.message || 'Server error' });
   }
 });
 

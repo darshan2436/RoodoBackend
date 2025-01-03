@@ -24,11 +24,16 @@ router.post('/', async (req, res) => {
 
 // Get all Routines
 router.get('/', async (req, res) => {
+  const email = req.body;
   try {  
-    const routines = await Routine.find();
+    let routines = await Routine.find();
+    routiners = routines.filter(routine => routine.email === email);
+    if(routines === "[]" || routines.length === 0){
+      throw new Error("No routines found");
+    }
     res.json(routines);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    res.status(500).json({ msg: err.message || 'Server error' });
   }
 });
 
