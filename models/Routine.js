@@ -6,7 +6,7 @@ const routineSchema = new mongoose.Schema({
   frequency: { type: String, enum: ['Daily', 'Weekly', 'Monthly'], required: true },
   completed: { type: Boolean, default: false },
   added: { type: Date, default: Date.now },
-  // email: { type: String, required: true }, //update the schema to include the email field
+  email: { type: String, required: true }, //update the schema to include the email field
 });
 
 module.exports = mongoose.model('Routine', routineSchema);

@@ -8,7 +8,7 @@ const todoSchema = new mongoose.Schema({
   completedAt: { type: Boolean, default: false },
   punishment: { type: String },
   isCompleted: { type: Boolean, default: false },
-  // email: { type: String, required: true },
+  email: { type: String, required: true },
 });
 
 module.exports = mongoose.model('Todo', todoSchema);
