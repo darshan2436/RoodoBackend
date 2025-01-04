@@ -5,14 +5,14 @@ const router = express.Router();
 
 // Add new Routine
 router.post('/', async (req, res) => {
-  const { task, frequency } = req.body;
+  const { task, frequency , completed ,email} = req.body;
 
   try {
     const newRoutine = new Routine({
       task,
       frequency,
       completed: false, // Default value
-      email, 
+      email,
     });
 
     await newRoutine.save();
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 
 // Get all Routines
 router.get('/', async (req, res) => {
-  const { email } = req.body;
+  const email  = req.params.email;
   try {  
     let routines = await Routine.find();
     routines = routines.filter(routine => routine.email === email);

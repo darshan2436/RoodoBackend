@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Add new Todo
 router.post('/', async (req, res) => {
-  const { title, deadline,  added, completedAt, punishment ,isCompleted ,email} = req.body;
+  const { title, deadline,  added, completedAt, punishment ,email} = req.body;
 
   try {
     const newTodo = new Todo({
@@ -27,7 +27,8 @@ router.post('/', async (req, res) => {
 
 // Get all Todos
 router.get('/', async (req, res) => {
-  const { email } = req.body;
+  const email = req.query.email;
+  console.log(email);
   try {
     let todos = await Todo.find();
     todos = todos.filter(todo => todo.email === email);
