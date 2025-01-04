@@ -24,7 +24,8 @@ router.post('/', async (req, res) => {
 
 // Get all Routines
 router.get('/', async (req, res) => {
-  const email  = req.params.email;
+  const email  = req.query.email;
+  console.log(email);
   try {  
     let routines = await Routine.find();
     routines = routines.filter(routine => routine.email === email);
