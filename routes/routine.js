@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
       task,
       frequency,
       completed: false, // Default value
-      // email, //later on add email to the routine
+      email, 
     });
 
     await newRoutine.save();
