@@ -62,9 +62,9 @@ router.post('/login', async (req, res) => {
 });
 
 //profile
-router.get('/profile', async (req, res) => {
+router.post('/profile', async (req, res) => {
   try {
-    const email = req.query.email;
+    const {email} = req.body;
     if (!email) {
       return res.status(401).json({ msg: 'No user profile' });
     }
