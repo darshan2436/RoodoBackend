@@ -69,8 +69,7 @@ router.get('/profile', async (req, res) => {
       return res.status(401).json({ msg: 'No user profile' });
     }
 
-    let routines = await Routine.find();
-    routines = routines.filter(routine => routine.email === email);
+    let user = await Uer.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
