@@ -3,6 +3,32 @@ const express = require('express');
 const Routine = require('../models/Routine'); // Make sure to create the Routine model
 const router = express.Router();
 
+async function changeChecked(id , completed){
+  const updatedRoutine = await Routine.findByIdAndUpdate(
+    id,
+    { $set: { completed } },
+    { new: true }
+  );
+  return updatedRoutine;
+}
+
+const updateRoutine = (routines)=>{
+  const now = new Date();
+  routines.map((routine)=>{
+    console.log(routine)
+    const difference = (now - new Date(routine.added))/(60*60*1000*24)
+    console.log(now , routine.added)
+    console.log(difference);
+    if(difference > 1 && routine.frequency === "Daily"){
+      	changeChecked(routine.id , false)
+    } else if(difference > 7 && routine.frequency === "Weekly"){
+      changeChecked(routine.id , false)
+    } else if(difference > 30 && routine.frequency === "Monthly"){
+      changeChecked(routine.id , false)
+    }
+  })
+}
+
 // Add new Routine
 router.post('/', async (req, res) => {
   const { task, frequency , completed ,email} = req.body;
@@ -32,6 +58,7 @@ router.get('/', async (req, res) => {
     // if(routines === "[]" || routines.length === 0){
     //   throw new Error("No routines found");
     // }
+    updateRoutine(routines);
     res.json(routines);
   } catch (err) {
     res.status(500).json({ msg: err.message || 'Server error' });
@@ -44,11 +71,7 @@ router.put('/:id', async (req, res) => {
   const { completed } = req.body;
 
   try {
-    const updatedRoutine = await Routine.findByIdAndUpdate(
-      id,
-      { $set: { completed } },
-      { new: true }
-    );
+    const updatedRoutine = changeChecked(id , completed);
 
     if (!updatedRoutine) {
       return res.status(404).json({ message: 'Routine not found' });
