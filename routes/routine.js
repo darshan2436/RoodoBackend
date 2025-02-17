@@ -10,6 +10,7 @@ async function changeChecked(id , completed){
     { $set: { completed } },
     { new: true }
   );
+  console.log("changed " + updatedRoutine)
   return updatedRoutine;
 }
 
