@@ -13,16 +13,24 @@ async function changeChecked(id , completed){
   return updatedRoutine;
 }
 
+const updateDate= async (id , now)=>{
+  await Routine.findByIdAndUpdate(
+    id,
+    {updated: now}
+  )
+  changeChecked(id ,false);
+}
+
 const updateRoutine = (routines)=>{
   const now = new Date();
   routines.map((routine)=>{
-    const difference = (now - new Date(routine.added))/(60*60*1000*24)
+    const difference = (now - new Date(routine.updated))/(60*60*1000*24)
     if(difference > 1 && routine.frequency === "Daily"){
-      changeChecked(routine.id , false)
+      updateDate(routine.id , now)
     } else if(difference > 7 && routine.frequency === "Weekly"){
-      changeChecked(routine.id , false)
+      updateDate(routine.id , now)
     } else if(difference > 30 && routine.frequency === "Monthly"){
-      changeChecked(routine.id , false)
+      updateDate(routine.id , now)
     }
   })
 }
