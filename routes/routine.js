@@ -4,7 +4,6 @@ const Routine = require('../models/Routine'); // Make sure to create the Routine
 const router = express.Router();
 
 async function changeChecked(id , completed){
-  console.log(id,completed)
   const updatedRoutine = await Routine.findByIdAndUpdate(
     id,
     { $set: { completed } },
@@ -70,7 +69,7 @@ router.put('/:id', async (req, res) => {
   const { completed } = req.body;
 
   try {
-    const updatedRoutine = changeChecked(id , !completed);
+    const updatedRoutine = changeChecked(id , completed);
 
     if (!updatedRoutine) {
       return res.status(404).json({ message: 'Routine not found' });

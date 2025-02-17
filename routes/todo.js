@@ -28,7 +28,6 @@ router.post('/', async (req, res) => {
 // Get all Todos
 router.get('/', async (req, res) => {
   const email = req.query.email;
-  console.log(email);
   try {
     let todos = await Todo.find();
     todos = todos.filter(todo => todo.email === email);
