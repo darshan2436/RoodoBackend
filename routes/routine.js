@@ -24,7 +24,8 @@ const updateDate= async (id , now)=>{
 }
 
 //function ro updateRoutine especially for re freshing the 'completed' of a routine 
-const updateRoutine = (routines)=>{
+const updateRoutine = async ()=>{
+  let routines = await Routine.find();
   const now = new Date();
   routines.map((routine)=>{
     const difference = (now - new Date(routine.updated))/(60*60*1000*24)
