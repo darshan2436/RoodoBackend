@@ -23,9 +23,6 @@ const updateDate= async (id , now)=>{
   changeChecked(id ,false);
 }
 
-//updates the routine after every 30 min
-setInterval(updateRoutine , 1000*60*30);
-
 //function ro updateRoutine especially for re freshing the 'completed' of a routine 
 const updateRoutine = (routines)=>{
   const now = new Date();
@@ -40,6 +37,9 @@ const updateRoutine = (routines)=>{
     }
   })
 }
+
+//updates the routine after every 30 min
+setInterval(updateRoutine , 1000*60*30);
 
 // Add new Routine
 router.post('/', async (req, res) => {
