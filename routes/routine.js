@@ -3,6 +3,7 @@ const express = require('express');
 const Routine = require('../models/Routine'); // Make sure to create the Routine model
 const router = express.Router();
 
+//changes the checked value 
 async function changeChecked(id , completed){
   const updatedRoutine = await Routine.findByIdAndUpdate(
     id,
@@ -13,6 +14,7 @@ async function changeChecked(id , completed){
   return updatedRoutine;
 }
 
+//updates the `updated` date so it is then compared when to re changing the routine
 const updateDate= async (id , now)=>{
   await Routine.findByIdAndUpdate(
     id,
@@ -21,6 +23,10 @@ const updateDate= async (id , now)=>{
   changeChecked(id ,false);
 }
 
+//updates the routine after every 30 min
+setInterval(updateRoutine , 1000*60*30);
+
+//function ro updateRoutine especially for re freshing the 'completed' of a routine 
 const updateRoutine = (routines)=>{
   const now = new Date();
   routines.map((routine)=>{
@@ -61,10 +67,6 @@ router.get('/', async (req, res) => {
   try {  
     let routines = await Routine.find();
     routines = routines.filter(routine => routine.email === email);
-    // if(routines === "[]" || routines.length === 0){
-    //   throw new Error("No routines found");
-    // }
-    updateRoutine(routines);
     res.json(routines);
   } catch (err) {
     res.status(500).json({ msg: err.message || 'Server error' });
@@ -73,7 +75,7 @@ router.get('/', async (req, res) => {
 
 // Update Routine
 router.put('/:id', async (req, res) => {
-  const { id } = req.params; // Correct parameter extraction
+  const { id } = req.params; 
   const { completed } = req.body;
 
   try {

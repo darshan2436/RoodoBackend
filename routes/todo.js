@@ -31,9 +31,6 @@ router.get('/', async (req, res) => {
   try {
     let todos = await Todo.find();
     todos = todos.filter(todo => todo.email === email);
-    // if(todos === "[]" || todos.length === 0){
-    //   throw new Error("No todos found");
-    // }
     res.json(todos);
   } catch (err) {
     res.status(500).json({ msg: err.message || 'Server error' });
